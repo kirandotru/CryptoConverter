@@ -1,7 +1,13 @@
+#from crypt import crypt
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox as mb
 import requests
+
+def update_crypto_label(event):
+    crypto_id = crypto_combobox.get() # Получить и сохранить выбранную криптовалюту
+    crypto_name = cryptocurrencies[crypto_id]
+    crypto_label.config(text=crypto_name)
 
 def update_b_label(event):
     print(event)
@@ -40,6 +46,8 @@ def exchange():
             mb.showerror("Ошибка", f"Ошибка: {e}")
     else:
         mb.showwarning('Внимание', 'Выберите коды валют для каждого поля!')
+
+# Получение параметров для запроса
 def get_params(ids, vs_currencies):
     params = {
         'ids': ids,
@@ -59,10 +67,11 @@ cryptocurrencies = {
     'ethereum': 'Эфириум',
     'ripple': 'Райпл',
     'litecoin': 'Лайткойн',
-    'cardano': 'Кордано'
+    'cardano': 'Кардано'
 }
 
 print(cryptocurrencies['bitcoin'])
+
 # Словарь кодов валют и их полных названий
 currencies = {
     "USD": "Американский доллар",
@@ -82,6 +91,16 @@ currencies = {
 window = Tk()
 window.title("Курс обмена валюты")
 window.geometry("360x400")
+
+# Блок выбора криптовалюты
+Label(text="Выберите криптовалюту").pack(padx=10, pady=5)
+crypto_combobox = ttk.Combobox(values=list(cryptocurrencies.keys()))
+crypto_combobox.pack(padx=10, pady=5)
+crypto_combobox.bind("<<ComboboxSelected>>", update_crypto_label)
+
+# Блок описания криптовалюты
+crypto_label = ttk.Label()
+crypto_label.pack(padx=10, pady=5)
 
 # Блок первой базовой валюты
 Label(text="Базовая валюта №1:").pack(padx=10, pady=5)
