@@ -1,10 +1,10 @@
+# Дорогой преподаватель!
 # Приложение позволяет проверять как курс популярных валют, включенных в локальные словари,
 # так и непопулярных, название которых можно вводить вручную в представленном поле
 
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox as mb
-
 import requests
 
 def update_crypto_label(event):
@@ -98,11 +98,11 @@ currencies = {
 
 # Создание графического интерфейса
 window = Tk()
-window.title("Курс обмена валюты")
+window.title("CryptoConverter | Version 1.0")
 window.geometry("400x400")
 
 # Блок выбора криптовалюты
-Label(text="Введите любую криптовалюту\nили выберите из базового списка:").pack(padx=10, pady=15)
+Label(text="Введите название криптовалюты\nили выберите из базового списка:", font="Arial 10 bold").pack(padx=10, pady=15)
 crypto_combobox = ttk.Combobox(values=list(cryptocurrencies.keys()))
 crypto_combobox.pack(padx=10, pady=5)
 crypto_combobox.bind("<<ComboboxSelected>>", update_crypto_label)
@@ -120,10 +120,11 @@ t_combobox.bind("<<ComboboxSelected>>", update_t_label)
 t_label = ttk.Label()
 t_label.pack(padx=10, pady=10)
 
-Button(text="Курс обмена", command=crypto_exchange).pack(padx=10,pady=5)
+Button(text="Курс обмена", command=crypto_exchange).pack(padx=10,pady=15)
 
 # Блок результатов конвертации
-result_label = ttk.Label()
+result_label = Label(width=100, height=50, background='#ffffff',
+                     borderwidth=2, relief='groove', font="Arial 10")
 result_label.pack(padx=10, pady=5)
 
 window.mainloop()
