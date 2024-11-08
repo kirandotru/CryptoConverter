@@ -22,6 +22,30 @@ def update_t_label(event):
     name = currencies[code]
     t_label.config(text=name)
 
+def crypto_exchange():
+    crypto_code = crypto_combobox.get() # Сохранить криптовалюту
+    target_code = t_combobox.get() # Сохранить целевую валюту
+    print("Привет, как дела?")
+    print(crypto_code, target_code)
+    if crypto_code and target_code:
+        try:
+            # Работа с криптовалютами
+            url = 'https://api.coingecko.com/api/v3/simple/price'
+            crypto_response = requests.get(url, params=get_params(crypto_code, target_code))
+            crypto_response.raise_for_status() # Обработка ошибок
+            data = crypto_response.json()
+            print(data)
+            # Сформировать сообщение с результатом
+            info = f"1 {crypto_code} торгуется на уровне {data[crypto_code][target_code.lower()]} {target_code}"
+            mb.showinfo("Курс обмена", info)
+
+        except Exception as er:
+            mb.showerror("Предупреждение", f"{er}")
+    elif not crypto_code:
+        mb.showwarning("Предупреждение", "Внимание! Выберите криптовалюту")
+    elif not target_code:
+        mb.showwarning("Предупреждение", "Внимание! Выберите целевую валюту")
+
 def exchange():
     target_code = t_combobox.get()
     base_code = b_combobox.get()
@@ -54,12 +78,6 @@ def get_params(ids, vs_currencies):
         'vs_currencies': vs_currencies
     }
     return params
-
-# Работа с криптовалютами
-url = 'https://api.coingecko.com/api/v3/simple/price'
-
-crypto_response = requests.get(url, params=get_params('ethereum', 'USD'))
-print(crypto_response.json())
 
 # Словарь криптовалют и их полных названий
 cryptocurrencies = {
@@ -120,5 +138,6 @@ t_label = ttk.Label()
 t_label.pack(padx=10, pady=10)
 
 Button(text="Получить курс обмена", command=exchange).pack(padx=10, pady=10)
+Button(text="Курс криптовалюты", command=crypto_exchange).pack(padx=10,pady=5)
 
 window.mainloop()
