@@ -40,13 +40,17 @@ def exchange():
             mb.showerror("Ошибка", f"Ошибка: {e}")
     else:
         mb.showwarning('Внимание', 'Выберите коды валют для каждого поля!')
+def get_params(ids, vs_currencies):
+    params = {
+        'ids': ids,
+        'vs_currencies': vs_currencies
+    }
+    return params
 
+# Работа с криптовалютами
 url = 'https://api.coingecko.com/api/v3/simple/price'
-params = {
-    'ids': 'ethereum',
-    'vs_currencies': 'USD'
-}
-crypto_response = requests.get(url, params=params)
+
+crypto_response = requests.get(url, params=get_params('ethereum', 'USD'))
 print(crypto_response.json())
 
 # Словарь криптовалют и их полных названий
