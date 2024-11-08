@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox as mb
+from wsgiref.validate import check_input
+
 import requests
 
 def update_crypto_label(event):
@@ -17,7 +19,14 @@ def update_t_label(event):
 def crypto_exchange():
     crypto_code = crypto_combobox.get() # Сохранить криптовалюту
     target_code = t_combobox.get() # Сохранить целевую валюту
-    if crypto_code and target_code:
+    # Проверка ввода
+    def check_input(message):
+        mb.showwarning("Предупреждение", f"Внимание! Выберите {message}")
+    if not crypto_code:
+        check_input('криптовалюту')
+    elif not target_code:
+        check_input('целевую валюту')
+    else:
         try:
             # Запрос курса конкретной криптовалюты в выбранной валюте
             url = 'https://api.coingecko.com/api/v3/simple/price'
@@ -32,10 +41,7 @@ def crypto_exchange():
 
         except Exception as er:
             mb.showerror("Предупреждение", f"{er}")
-    elif not crypto_code:
-        mb.showwarning("Предупреждение", "Внимание! Выберите криптовалюту")
-    elif not target_code:
-        mb.showwarning("Предупреждение", "Внимание! Выберите целевую валюту")
+
 
 # Получение параметров для запроса
 def get_params(ids, vs_currencies):
