@@ -50,8 +50,9 @@ def crypto_exchange():
             else:
                 exchange_rate = data[crypto_code][target_code.lower()]
                 # Сформировать сообщение с результатом
-                info = f"1 {crypto_code} торгуется на уровне {exchange_rate} {target_code}"
-                mb.showinfo("Курс обмена", info)
+                info = f'1 {crypto_code} торгуется на уровне {exchange_rate} {target_code}'
+                result_label.config(text=f'Курс обмена:\n{info}')
+                mb.showinfo('Курс обмена', info)
         except Exception as er:
             message_output('error', er)
 
@@ -101,7 +102,7 @@ window.title("Курс обмена валюты")
 window.geometry("400x400")
 
 # Блок выбора криптовалюты
-Label(text="Выберите криптовалюту").pack(padx=10, pady=5)
+Label(text="Введите любую криптовалюту\nили выберите из базового списка:").pack(padx=10, pady=15)
 crypto_combobox = ttk.Combobox(values=list(cryptocurrencies.keys()))
 crypto_combobox.pack(padx=10, pady=5)
 crypto_combobox.bind("<<ComboboxSelected>>", update_crypto_label)
@@ -120,5 +121,9 @@ t_label = ttk.Label()
 t_label.pack(padx=10, pady=10)
 
 Button(text="Курс обмена", command=crypto_exchange).pack(padx=10,pady=5)
+
+# Блок результатов конвертации
+result_label = ttk.Label()
+result_label.pack(padx=10, pady=5)
 
 window.mainloop()
