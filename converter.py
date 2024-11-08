@@ -3,12 +3,12 @@ from tkinter import ttk
 from tkinter import messagebox as mb
 import requests
 
-def update_b_label_1(event):
+def update_b_label(event):
     print(event)
     # Получаем полное название 1-й базовой валюты из словаря и обновляем метку
-    code_1 = b_combobox_1.get()
-    name_1 = currencies[code_1]
-    b_label_1.config(text=name_1)
+    code = b_combobox.get()
+    name = currencies[code]
+    b_label.config(text=name)
 
 def update_t_label(event):
     # Получаем полное название целевой валюты из словаря и обновляем метку
@@ -18,21 +18,20 @@ def update_t_label(event):
 
 def exchange():
     target_code = t_combobox.get()
-    base_code_1 = b_combobox_1.get()
-
-    if target_code and base_code_1:
+    base_code = b_combobox.get()
+    if target_code and base_code:
         try:
-            if base_code_1:
-                response = requests.get(f'https://open.er-api.com/v6/latest/{base_code_1}')
+            if base_code:
+                response = requests.get(f'https://open.er-api.com/v6/latest/{base_code}')
                 response.raise_for_status()
-                data_1 = response.json()
+                data = response.json()
 
-            if target_code in data_1['rates']:
-                exchange_rate_1 = data_1['rates'][target_code]
-                base_1 = currencies[base_code_1]
+            if target_code in data['rates']:
+                exchange_rate = data['rates'][target_code]
+                base = currencies[base_code]
                 target = currencies[target_code]
-                info_1 = f"Курс {exchange_rate_1:.2f} {target} за 1 {base_1}"
-                info = f"{info_1}"
+                info = f"Курс {exchange_rate:.2f} {target} за 1 {base}"
+                info = f"{info}"
                 mb.showinfo("Курс обмена", info)
 
             else:
@@ -40,8 +39,26 @@ def exchange():
         except Exception as e:
             mb.showerror("Ошибка", f"Ошибка: {e}")
     else:
-        mb.showwarning("Внимание", "Выберите коды валют для каждого поля!")
+        mb.showwarning('Внимание', 'Выберите коды валют для каждого поля!')
 
+url = 'https://api.coingecko.com/api/v3/simple/price'
+params = {
+    'ids': 'ethereum',
+    'vs_currencies': 'USD'
+}
+crypto_response = requests.get(url, params=params)
+print(crypto_response.json())
+
+# Словарь криптовалют и их полных названий
+cryptocurrencies = {
+    'bitcoin': 'Биткойн',
+    'ethereum': 'Эфириум',
+    'ripple': 'Райпл',
+    'litecoin': 'Лайткойн',
+    'cardano': 'Кордано'
+}
+
+print(cryptocurrencies['bitcoin'])
 # Словарь кодов валют и их полных названий
 currencies = {
     "USD": "Американский доллар",
@@ -64,12 +81,12 @@ window.geometry("360x400")
 
 # Блок первой базовой валюты
 Label(text="Базовая валюта №1:").pack(padx=10, pady=5)
-b_combobox_1 = ttk.Combobox(values=list(currencies.keys()))
-b_combobox_1.pack(padx=10, pady=5)
-b_combobox_1.bind("<<ComboboxSelected>>", update_b_label_1)
+b_combobox = ttk.Combobox(values=list(currencies.keys()))
+b_combobox.pack(padx=10, pady=5)
+b_combobox.bind("<<ComboboxSelected>>", update_b_label)
 
-b_label_1 = ttk.Label()
-b_label_1.pack(padx=10, pady=10)
+b_label = ttk.Label()
+b_label.pack(padx=10, pady=10)
 
 Label(text="Целевая валюта:").pack(padx=10, pady=5)
 t_combobox = ttk.Combobox(values=list(currencies.keys()))
