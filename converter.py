@@ -44,7 +44,7 @@ def message_output(type_message, message):
 
 def create_help(coin):
     """
-    Создаёт кнопки для получения справки из стороннего ресурса.
+    Создаёт/удаляет кнопки для получения справки из стороннего ресурса.
     :param coin: Наименование выбранной криптовалюты
     :return: None
     """
@@ -90,7 +90,7 @@ def crypto_exchange():
             else:
                 exchange_rate = data[crypto_code][target_code.lower()]
                 # Сформировать сообщение с результатом.
-                info = f'1 {crypto_code} торгуется на уровне {exchange_rate} {target_code}'
+                info = f'1 {crypto_code} торгуется на уровне {exchange_rate} {target_code.upper()}'
                 result_label.config(text=f'Курс обмена:\n{info}')
                 # Создать кнопку помощи для выбранной криптовалюты.
                 create_help(crypto_code)
