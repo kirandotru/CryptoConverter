@@ -1,9 +1,4 @@
-# Дорогой преподаватель!
-# Данное приложение позволяет проверять как курс популярных валют, включенных в локальные словари
-# данного приложения, так и непопулярных, название которых можно вводить вручную в представленном
-# поле (как в верхнем, так и в нижнем регистре). Приложение также позволяет получить справку
-# по выбранной криптовалюте и надёжно защищает Вас от некорректного ввода.
-
+# CryptoConverter | Version 1.1
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox as mb
@@ -119,7 +114,12 @@ currencies = {
 window = Tk()
 window.title('CryptoConverter | Version 1.1')
 window.geometry('400x410')
-window.iconbitmap('btc.ico')
+try:
+    window.iconbitmap('images/btc.ico')
+except TclError:
+    message_output('info', 'Приложение будет запущено без фирменной иконки:(')
+except Exception as er:
+    message_output('error', er)
 
 # Блок выбора криптовалюты
 Label(text="Введите название криптовалюты\nили выберите из базового списка:", font="Arial 10 bold").pack(padx=10, pady=15)
