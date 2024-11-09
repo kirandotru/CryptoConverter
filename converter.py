@@ -173,7 +173,7 @@ t_combobox.bind("<<ComboboxSelected>>", update_t_label)
 t_label = ttk.Label()
 t_label.pack(padx=10, pady=10)
 
-Button(text="Курс обмена", command=crypto_exchange).pack(padx=10,pady=15)
+Button(text="Получить курс обмена", command=crypto_exchange).pack(padx=10,pady=15)
 
 # Блок результатов конвертации.
 result_label = Label(width=100, height=4, background='#ffffff',
