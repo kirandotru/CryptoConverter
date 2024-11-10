@@ -171,7 +171,7 @@ application = 'CryptoConverter | Version 1.1'
 # GUI -- ГРАФИЧЕСКИЙ ПОЛЬЗОВАТЕЛЬСКИЙ ИНТЕРФЕЙС
 window = Tk()
 window.title(application)
-window.geometry('400x425')
+window.geometry('400x428')
 try:
     window.iconbitmap('images/btc.ico')
 except TclError:
