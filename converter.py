@@ -2,6 +2,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox as mb
+from datetime import datetime
 import requests
 import webbrowser
 
@@ -98,6 +99,13 @@ def crypto_exchange():
         except Exception as er:
             message_output('error', er)
 
+def developer():
+    """
+    Отображает информацию о приложении
+    :return: None
+    """
+    message_output('info', f'© {datetime.now().year} {application}\nCreated by KIRILL')
+
 def get_params(ids, vs_currencies):
     """
     Формирует словарь параметров, необходимый для осуществления запроса к API.
@@ -141,10 +149,13 @@ currencies = {
     "UZS": "Узбекский сум"
 }
 
+# Название приложения и версия
+application = 'CryptoConverter | Version 1.1'
+
 #==============================================
 # GUI -- ГРАФИЧЕСКИЙ ПОЛЬЗОВАТЕЛЬСКИЙ ИНТЕРФЕЙС
 window = Tk()
-window.title('CryptoConverter | Version 1.1')
+window.title(application)
 window.geometry('400x410')
 try:
     window.iconbitmap('images/btc.ico')
@@ -152,6 +163,15 @@ except TclError:
     message_output('info', 'Приложение будет запущено без фирменной иконки:(')
 except Exception as er:
     message_output('error', er)
+
+# Главное меню
+main_menu = Menu(window)
+window.config(menu=main_menu)
+
+# Всплывающее меню
+file_menu = Menu(main_menu, tearoff=0)
+file_menu.add_command(label='О программе', command=developer)
+main_menu.add_cascade(label='Меню', menu=file_menu)
 
 # Блок выбора криптовалюты
 Label(text="Введите название криптовалюты\nили выберите из базового списка:", font="Arial 10 bold").pack(padx=10, pady=15)
