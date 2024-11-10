@@ -2,6 +2,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox as mb
+from tkinter import filedialog as fd
 from datetime import datetime
 import requests
 import webbrowser
@@ -93,11 +94,25 @@ def crypto_exchange():
                 # Сформировать сообщение с результатом.
                 info = f'1 {crypto_code} торгуется на уровне {exchange_rate} {target_code.upper()}'
                 result_label.config(text=f'Курс обмена:\n{info}')
+                save_history(info)
                 # Создать кнопку помощи для выбранной криптовалюты.
                 create_help(crypto_code)
 
         except Exception as er:
             message_output('error', er)
+
+def save_history(user_request):
+    """
+    Создаёт файл history.txt, если его не существует, сохраняет историю всех запросов.
+    :param user_request: Сообщение, включающее курс выбранной криптовалюты
+    :return: None
+    """
+    try:
+        with open('history.txt', 'a+', encoding="utf-8") as f:
+            f.write(f'{user_request} | Время торговли: {datetime.now()}\n')
+            # text.insert(1.0, s) # От 1 строки 0 элемента до конца / добавляем то, что в переменной s
+    except Exception as er:
+        message_output('error', f'История запросов не может быть сохранена.\n{er}')
 
 def developer():
     """
@@ -156,7 +171,7 @@ application = 'CryptoConverter | Version 1.1'
 # GUI -- ГРАФИЧЕСКИЙ ПОЛЬЗОВАТЕЛЬСКИЙ ИНТЕРФЕЙС
 window = Tk()
 window.title(application)
-window.geometry('400x410')
+window.geometry('400x425')
 try:
     window.iconbitmap('images/btc.ico')
 except TclError:
