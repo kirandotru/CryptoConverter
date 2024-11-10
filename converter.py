@@ -9,9 +9,6 @@ import webbrowser
 #========================================================================
 # CONTROLLER / КОНТРОЛЛЕР — ПОЛУЧАТАЕТ И ПРЕОБРАЗУЕТ ЗАПРОСЫ ПОЛЬЗОВАТЕЛЯ
 
-def change_label(label, code):
-    label.config(text=code)
-
 def update_crypto_label(event):
     """
     Заполняет/обновляет метку для размещения названия криптовалюты.
@@ -98,16 +95,16 @@ def crypto_exchange():
                 result_label.config(text=f'Курс обмена:\n{info}')
                 save_history(info)
 
-                # Замена labels, если криптовалюты/валюты нет/не было в списке,
+                # Замена labels, если криптовалюты/валюты нет/не было в списке
                 if crypto_code not in list(cryptocurrencies.keys()):
-                    change_label(crypto_label, crypto_code)
+                    crypto_label.config(text=crypto_code)
                 else:
-                    change_label(crypto_label, cryptocurrencies[crypto_code])
+                    crypto_label.config(text=cryptocurrencies[crypto_code])
 
                 if target_code not in list(currencies.keys()):
-                    change_label(t_label, target_code)
+                    t_label.config(text=target_code)
                 else:
-                    change_label(t_label, currencies[target_code])
+                    t_label.config(text=currencies[target_code])
 
                 # Создать кнопку помощи для выбранной криптовалюты.
                 create_help(crypto_code)
