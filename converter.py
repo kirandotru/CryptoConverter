@@ -2,7 +2,6 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox as mb
-from tkinter import filedialog as fd
 from datetime import datetime
 import requests
 import webbrowser
