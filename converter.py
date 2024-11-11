@@ -13,7 +13,6 @@ def update_crypto_label(event):
     """
     Заполняет/обновляет метку для размещения названия криптовалюты.
     :param event: Объект события
-    :return: None
     """
     crypto_id = crypto_combobox.get() # Получить и сохранить выбранную криптовалюту
     crypto_name = cryptocurrencies[crypto_id]
@@ -23,7 +22,6 @@ def update_t_label(event):
     """
     Заполняет/обновляет метку для размещения названия целевой валюты.
     :param event: Объект события
-    :return: None
     """
     code = t_combobox.get()
     name = currencies[code]
@@ -34,7 +32,6 @@ def message_output(type_message, message):
     Выводит на экран сообщение messagebox, исходя из переданных параметров.
     :param type_message: Тип сообщения
     :param message: Содержание сообщения
-    :return: None
     """
     if type_message == 'warning':
         mb.showwarning("Предупреждение", f"Выберите {message}")
@@ -47,7 +44,6 @@ def create_help(coin):
     """
     Создаёт/удаляет кнопки для получения справки из стороннего ресурса.
     :param coin: Наименование выбранной криптовалюты
-    :return: None
     """
     for widget in help_frame.winfo_children():
         widget.destroy()
@@ -58,7 +54,6 @@ def open_help(cryptocurrency):
     """
     Реализует открытие справки из указанного ресурса в браузере по умолчанию.
     :param cryptocurrency: Наименование выбранной криптовалюты
-    :return: None
     """
     link = f"https://ru.wikipedia.org/wiki/{cryptocurrency}"
     webbrowser.open(link)
@@ -67,7 +62,6 @@ def crypto_exchange():
     """
     Реализует обмен криптовалют, ввёденных/выбранных пользователем.
     Позволяет получать курс даже на те валюты, которые не указаны в локальном словаре.
-    :return: None
     """
     crypto_code = crypto_combobox.get().lower() # Сохранить криптовалюту в нижнем регистре.
     target_code = t_combobox.get() # Сохранить целевую валюту.
@@ -85,9 +79,9 @@ def crypto_exchange():
             data = crypto_response.json()
 
             if data == {}:
-                mb.showinfo('Предупреждение', 'Криптовалюта введена некорректно!')
+                message_output('info', 'Криптовалюта введена некорректно!')
             elif data[crypto_code] == {}:
-                mb.showinfo('Предупреждение', 'Целевая валюта введена некорректно!')
+                message_output('info', 'Целевая валюта введена некорректно!')
             else:
                 exchange_rate = data[crypto_code][target_code.lower()]
                 # Сформировать сообщение с результатом.
@@ -116,7 +110,6 @@ def save_history(user_request):
     """
     Создаёт файл history.txt, если его не существует, сохраняет историю всех запросов.
     :param user_request: Сообщение, включающее курс выбранной криптовалюты
-    :return: None
     """
     try:
         with open('history.txt', 'a+', encoding="utf-8") as f:
@@ -128,7 +121,6 @@ def save_history(user_request):
 def developer():
     """
     Отображает информацию о приложении
-    :return: None
     """
     message_output('info', f'© {datetime.now().year} {application}\nCreated by KIRILL')
 
@@ -222,8 +214,7 @@ t_label.pack(padx=10, pady=10)
 Button(text="Получить курс обмена", command=crypto_exchange).pack(padx=10,pady=15)
 
 # Блок результатов конвертации.
-result_label = Label(width=100, height=4, background='#ffffff',
-                     borderwidth=2, relief='groove', font="Arial 10")
+result_label = Label(width=100, height=4, background='#ffffff', borderwidth=2, relief='groove', font="Arial 10")
 result_label.pack(padx=10, pady=5)
 
 # Фрейм для кнопки помощи.
