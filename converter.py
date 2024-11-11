@@ -84,9 +84,9 @@ def crypto_exchange():
             crypto_response.raise_for_status() # Проверить понимания запроса.
             data = crypto_response.json()
 
-            if crypto_response.json() == {}:
+            if data == {}:
                 mb.showinfo('Предупреждение', 'Криптовалюта введена некорректно!')
-            elif crypto_response.json()[crypto_code] == {}:
+            elif data[crypto_code] == {}:
                 mb.showinfo('Предупреждение', 'Целевая валюта введена некорректно!')
             else:
                 exchange_rate = data[crypto_code][target_code.lower()]
